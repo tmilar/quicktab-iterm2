@@ -57,8 +57,8 @@ install -m 755 "$SRC/trigger-shim.sh" "$BIN_DIR/quicktab-trigger"
 echo "  ✓ $BIN_DIR/quicktab-trigger (shim + script)"
 
 # Autolaunch RPC script (iTerm2 finds this automatically on launch)
-install -m 644 "$SRC/autolaunch.py" "$AUTOLAUNCH_DIR/quicktab.py"
-echo "  ✓ $AUTOLAUNCH_DIR/quicktab.py"
+install -m 644 "$SRC/autolaunch.py" "$AUTOLAUNCH_DIR/quicktab-iterm2.py"
+echo "  ✓ $AUTOLAUNCH_DIR/quicktab-iterm2.py"
 
 # Build the picker binary (so first hotkey press is instant)
 echo
@@ -73,9 +73,9 @@ echo "  ✓ $CACHE_DIR/picker"
 
 echo
 echo "Starting autolaunch script…"
-pkill -f "AutoLaunch/quicktab.py" >/dev/null 2>&1 || true
+pkill -f "AutoLaunch/quicktab-iterm2.py" >/dev/null 2>&1 || true
 sleep 0.3
-nohup /bin/zsh -c "/Applications/iTerm.app/Contents/Resources/it2_api_wrapper.sh '$ITERM_PY' '$AUTOLAUNCH_DIR/quicktab.py'" \
+nohup /bin/zsh -c "/Applications/iTerm.app/Contents/Resources/it2_api_wrapper.sh '$ITERM_PY' '$AUTOLAUNCH_DIR/quicktab-iterm2.py'" \
   >/tmp/quicktab-launch.log 2>&1 &
 disown
 # Wait up to 5s for registration message (autolaunch import can be slow first time)
