@@ -41,9 +41,19 @@ The installer checks all of these.
 curl -fsSL https://raw.githubusercontent.com/tmilar/quicktab-iterm2/main/bootstrap.sh | bash
 ```
 
-Audit the script first if that's your style: `curl https://raw.githubusercontent.com/tmilar/quicktab-iterm2/main/bootstrap.sh`.
+Then bind a hotkey: iTerm2 → **Settings** → **Keys** → **Key Bindings** → **+**
 
-### Manual
+- **Keyboard Shortcut:** press your chord (e.g. `⌘E` or `⌘⌥Space`)
+- **Action:** `Invoke Script Function`
+- **Function Call:** `quicktab_show()`
+- **Scope:** For all sessions
+- Save.
+
+iTerm2 will prompt you once to grant the Python API permission — accept. You're done.
+
+> Wary of `curl | bash`? Audit first: `curl https://raw.githubusercontent.com/tmilar/quicktab-iterm2/main/bootstrap.sh`.
+
+### Manual install
 
 ```bash
 git clone https://github.com/tmilar/quicktab-iterm2.git
@@ -56,20 +66,10 @@ The installer:
 1. Verifies iTerm2 and Swift toolchain are present
 2. Copies the picker source + shim to `~/.local/bin/`
 3. Copies the autolaunch RPC script to `~/Library/Application Support/iTerm2/Scripts/AutoLaunch/`
-4. Builds the picker binary into `~/.cache/quicktab/picker`
+4. Builds the picker binary into `~/.cache/quicktab-iterm2/picker`
 5. Starts the autolaunch script (no iTerm2 restart needed)
 
-After the installer finishes, complete the **one manual step**:
-
-iTerm2 → **Settings** → **Keys** → **Key Bindings** → **+**
-
-- **Keyboard Shortcut:** press your chord (e.g. `⌘E` or `⌘⌥Space`)
-- **Action:** `Invoke Script Function`
-- **Parameters:** `quicktab_show()`
-- **Scope:** For all sessions
-- Save.
-
-iTerm2 will prompt you once to grant the Python API permission — accept.
+Then bind the hotkey as shown above.
 
 ## Use
 
@@ -78,7 +78,6 @@ Press your chord in any iTerm2 window. The picker appears.
 | Keyboard | Mouse | Action |
 |---|---|---|
 | `↑` `↓` | — | navigate the list (skips window-section headers) |
-| `Tab` `⇧Tab` | — | same as arrows |
 | type characters | — | fuzzy-filter by title |
 | `⏎` | click a row | open the highlighted/clicked tab |
 | `⌘⌫` | click X (appears on hover) | close the highlighted tab; picker stays open |
@@ -117,6 +116,14 @@ The RPC handler is fire-and-forget: it spawns the picker as an asyncio backgroun
 
 ## Configuration
 
+### Changing the hotkey
+
+Re-do the binding step in **Install** with a different chord. The project ships with no hardcoded shortcut — whatever you bind in iTerm2 fires the popup.
+
+### Multiple hotkeys
+
+Bind multiple chords to the same function. e.g. `⌘E` for keyboard-friendly use, plus `⌘⌥Space` as a Spotlight-adjacent alternative — both invoke `quicktab_show()`.
+
 ### Logging
 
 Silent by default. To get verbose diagnostics (helpful when reporting a bug or just curious):
@@ -130,21 +137,13 @@ export QUICKTAB_DEBUG=1
 - `/tmp/quicktab-debug.log` — autolaunch script (parent)
 - `/tmp/quicktab-debug-swift.log` — picker subprocess
 
-### Changing the hotkey
-
-Re-do the steps in **Install → Final step** with a different chord. The project ships with no hardcoded shortcut — whatever you bind in iTerm2 fires the popup.
-
-### Multiple hotkeys
-
-Bind multiple chords to the same function. e.g. `⌘E` for keyboard-friendly use, plus `⌘⌥Space` as a Spotlight-adjacent alternative — both invoke `quicktab_show()`.
-
 ## Uninstall
 
 ```bash
 ./uninstall.sh
 ```
 
-Reverses everything `install.sh` did: stops the autolaunch script and any running picker, removes binaries/sources from `~/.local/bin`, removes the autolaunch script from iTerm2's `AutoLaunch/` directory, clears `~/.cache/quicktab/` and the temp/pid files. The iTerm2 hotkey binding stays — remove it manually in **Settings → Keys → Key Bindings**.
+Reverses everything `install.sh` did: stops the autolaunch script and any running picker, removes binaries/sources from `~/.local/bin`, removes the autolaunch script from iTerm2's `AutoLaunch/` directory, clears `~/.cache/quicktab-iterm2/` and the temp/pid files. The iTerm2 hotkey binding stays — remove it manually in **Settings → Keys → Key Bindings**.
 
 ## How it works under the hood
 

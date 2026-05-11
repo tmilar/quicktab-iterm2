@@ -8,7 +8,7 @@ SRC="$PROJECT_DIR/src"
 
 BIN_DIR="$HOME/.local/bin"
 AUTOLAUNCH_DIR="$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch"
-CACHE_DIR="$HOME/.cache/quicktab"
+CACHE_DIR="$HOME/.cache/quicktab-iterm2"
 
 # ─── prereqs ─────────────────────────────────────────────────────────────────
 

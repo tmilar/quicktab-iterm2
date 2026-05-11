@@ -5,11 +5,11 @@
 # Source layout (after install):
 #   ~/.local/bin/quicktab-picker        ← this file
 #   ~/.local/bin/quicktab-picker.swift  ← Swift source
-#   ~/.cache/quicktab/picker            ← compiled binary (built on first run)
+#   ~/.cache/quicktab-iterm2/picker            ← compiled binary (built on first run)
 set -e
 
 SRC="$HOME/.local/bin/quicktab-picker.swift"
-BIN="$HOME/.cache/quicktab/picker"
+BIN="$HOME/.cache/quicktab-iterm2/picker"
 
 mkdir -p "$(dirname "$BIN")"
 

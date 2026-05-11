@@ -5,7 +5,7 @@ set -euo pipefail
 
 BIN_DIR="$HOME/.local/bin"
 AUTOLAUNCH_DIR="$HOME/Library/Application Support/iTerm2/Scripts/AutoLaunch"
-CACHE_DIR="$HOME/.cache/quicktab"
+CACHE_DIR="$HOME/.cache/quicktab-iterm2"
 
 echo "Uninstalling quicktab-iterm2…"
 
@@ -16,8 +16,8 @@ if pgrep -f "AutoLaunch/quicktab-iterm2.py" >/dev/null 2>&1; then
 fi
 
 # Stop any running picker.
-if pgrep -f "/quicktab/picker$" >/dev/null 2>&1; then
-  pkill -9 -f "/quicktab/picker$" 2>/dev/null || true
+if pgrep -f "/quicktab-iterm2/picker$" >/dev/null 2>&1; then
+  pkill -9 -f "/quicktab-iterm2/picker$" 2>/dev/null || true
   echo "  ✓ stopped picker"
 fi
 
