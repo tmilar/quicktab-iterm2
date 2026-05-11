@@ -1,6 +1,6 @@
 # quicktab-iterm2
 
-A Spotlight-style command palette for iTerm2 tabs. Press a hotkey, fuzzy-search across **all** open tabs in **all** windows, jump in.
+A Spotlight-style tab switcher for iTerm2. Press a hotkey, fuzzy-search across **all** open tabs in **all** windows, jump in.
 
 ![demo](media/demo.gif)
 
@@ -8,7 +8,7 @@ A Spotlight-style command palette for iTerm2 tabs. Press a hotkey, fuzzy-search 
 
 ## Why
 
-iTerm2 has Cmd+1..9 for in-window tab switching, but once you're past 9 tabs or across multiple windows, finding the right one is a hunt. Native macOS has no "command palette for terminal tabs." This adds one.
+iTerm2 has Cmd+1..9 for in-window tab switching, but once you're past 9 tabs or across multiple windows, finding the right one is a hunt. Native macOS has no Spotlight-style switcher for terminal tabs. This adds one.
 
 ## What it does
 

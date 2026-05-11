@@ -14,7 +14,7 @@ Initial public release.
 ### Added
 
 - **Hotkey-triggered popup picker** — user-configurable iTerm2 key binding
-  invokes `quicktab_show()` to summon a Spotlight-style command palette
+  invokes `quicktab_show()` to summon a Spotlight-style tab switcher
   anchored to the focused iTerm2 window.
 - **Fuzzy search across all tabs and windows** — subsequence match with
   scored ranking (consecutive-character bonus, word-boundary bonus,
