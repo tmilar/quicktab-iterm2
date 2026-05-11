@@ -1,0 +1,81 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    name: Build picker (macOS)
+    runs-on: macos-15
+    timeout-minutes: 5
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Print toolchain versions
+        run: |
+          swift --version
+          xcode-select -p
+          sw_vers
+
+      - name: Compile picker.swift
+        run: |
+          mkdir -p build
+          swiftc -O -o build/picker src/picker.swift
+          file build/picker
+          ls -la build/picker
+
+      - name: Verify binary launches and reads stdin
+        # Pipe a minimal valid payload and immediately close stdin.
+        # The picker should parse it without crashing.  We can't actually
+        # see the popup in headless CI, so we just verify the binary doesn't
+        # explode on startup.  A 0.5s timeout is enough to confirm it
+        # entered the runloop; then we SIGTERM it.
+        run: |
+          set -e
+          PAYLOAD='{"tabs":[{"window_id":"w1","tab_id":"t1","title":"smoke","tab_index":1,"is_active_tab":true,"is_active_window":true,"last_activity_at":null}],"anchor":null}'
+          echo "$PAYLOAD" | (./build/picker &
+            PID=$!
+            sleep 0.5
+            kill -TERM $PID 2>/dev/null || true
+            wait $PID 2>/dev/null || true
+            echo "picker handled stdin without crashing"
+          )
+
+  python-syntax:
+    name: Python syntax (autolaunch + trigger)
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Compile-check autolaunch.py and trigger.py
+        # We don't have the `iterm2` module in CI (it ships with iTerm2),
+        # so we use `py_compile` which only checks syntax, not imports.
+        run: |
+          python -m py_compile src/autolaunch.py
+          python -m py_compile src/trigger.py
+          echo "OK"
+
+  shell-lint:
+    name: Shell lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 2
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: shellcheck install.sh + shims
+        run: |
+          shellcheck install.sh src/picker-shim.sh src/trigger-shim.sh

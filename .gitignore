@@ -1,0 +1,18 @@
+# Internal-only docs (private progress tracking)
+STATUS.md
+
+# macOS noise
+.DS_Store
+**/.DS_Store
+
+# Build artifacts (built by install.sh on target machine)
+build/
+*.swiftmodule
+*.swiftdoc
+*.swiftsourceinfo
+
+# Editor / IDE
+.idea/
+.vscode/
+*.swp
+*~
